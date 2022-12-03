@@ -20,6 +20,9 @@ public class CueHandler : MonoBehaviour
     private Vector3 cuePos;
     private float lockOffset;
     private Vector3 lockForward;
+    public Transform cueTip;
+
+    public bool hitCueBall = false;
     
 
     //Vector3 frontPos;
@@ -80,13 +83,23 @@ public class CueHandler : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        
+
         Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
         if (!rb)
         {
             return;
         }
-        // nezinau ar reik to cueTip, nes cue centras kaip ir yra ant to tip
-        Vector3 forceDirection = (collision.contacts[0].point - transform.position).normalized;
-        rb.AddForce(forceDirection*cueRB.velocity.magnitude);
+        else if(collision.gameObject.tag != "CueBall" || hitCueBall){
+            PoolGameController.GameInstance.Fouled("cue");
+        }
+        else{
+            Vector3 forceDirection = (collision.contacts[0].point - cueTip.position).normalized;
+            rb.AddForce(forceDirection*cueRB.velocity.magnitude);
+            hitCueBall = true;
+            Debug.Log("cue hit ball");
+            Debug.Log(hitCueBall);
+        }
+        
     }
 }

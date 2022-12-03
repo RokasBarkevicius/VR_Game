@@ -6,20 +6,24 @@ public class PocketsController : MonoBehaviour
 {
     public GameObject cueBall;
     private Vector3 originalCueBallPosition;
+    CueBallController cbc;
 
     // Start is called before the first frame update
     void Start()
     {
-        originalCueBallPosition = cueBall.transform.position;
+        cbc = cueBall.GetComponent<CueBallController>();
+        cbc.StartCueBall(cueBall);
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (cueBall.transform.name == collision.gameObject.name)
         {
-            cueBall.transform.position = originalCueBallPosition;
+            cbc.ReturnCueBall(cueBall);
+            PoolGameController.GameInstance.Fouled("pocket");
         }
         else{
+
             var objectName = collision.gameObject.name;
             var objectType = collision.gameObject.tag;
             GameObject.Destroy(collision.gameObject);
@@ -27,4 +31,6 @@ public class PocketsController : MonoBehaviour
             PoolGameController.GameInstance.BallPocketed(ballNumber, objectType);
         }
     }
+
+    
 }

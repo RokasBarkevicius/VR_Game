@@ -8,6 +8,8 @@ TagManager:
   - Solids
   - Stripes
   - 8Ball
+  - Table
+  - Cue
   layers:
   - Default
   - TransparentFX

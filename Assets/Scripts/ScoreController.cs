@@ -21,8 +21,15 @@ public class ScoreController : MonoBehaviour
         var CurrentPlayer = PoolGameController.GameInstance.CurrentPlayer;
         var OtherPlayer = PoolGameController.GameInstance.OtherPlayer;
 
-        text.text = String.Format("{0} - {1}\n{2} - {3}",
+        if(CurrentPlayer.type == ""){
+            text.text = String.Format("{0} - {1}\n{2} - {3}",
         CurrentPlayer.Name, CurrentPlayer.Points, OtherPlayer.Name, OtherPlayer.Points);
+        }
+        else{
+            text.text = String.Format("{0} - {1}, {4}\n{2} - {3}, {5}",
+                CurrentPlayer.Name, CurrentPlayer.Points, OtherPlayer.Name,
+                OtherPlayer.Points, CurrentPlayer.type, OtherPlayer.type);
+        }
 
     }
 }
