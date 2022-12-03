@@ -54,7 +54,7 @@ public class PoolGameController : MonoBehaviour {
         if(CurrentPlayer.Points < 7 && ballNumber == 8){
             CurrentPlayer.pocketed8Ball();
         } 
-        else if(CurrentPlayer.Points == 0){
+        else if(CurrentPlayer.Points == 0 && CurrentPlayer.type == ""){
             currentPlayerContinuesToPlay = true;
 		    CurrentPlayer.Collect(ballNumber);
             CurrentPlayer.setType(ballType);
@@ -64,10 +64,12 @@ public class PoolGameController : MonoBehaviour {
             else{
                 OtherPlayer.setType("Solids");
             }
+            Debug.Log(CurrentPlayer.type);
+            Debug.Log(OtherPlayer.type);
         }
         else if(ballType == CurrentPlayer.type){
             currentPlayerContinuesToPlay = true;
-		CurrentPlayer.Collect(ballNumber);
+		    CurrentPlayer.Collect(ballNumber);
         }
         else{
             foul = true;
