@@ -48,8 +48,6 @@ public class CueHandler : MonoBehaviour
 
     void UpdateCuePosition()
     {
-        //kazkoki button reik gaut
-        //pabandyt su input helper kazka gal (11 eilute) 
         var backRight = right.action.ReadValue<float>();
         var backLeft = left.action.ReadValue<float>();
         
@@ -67,7 +65,7 @@ public class CueHandler : MonoBehaviour
         {
             //print("press hold");
             float currOffset = (frontPos - backPos).magnitude;
-            cueRB.MovePosition(cuePos + lockForward * (lockOffset - currOffset)); //gali neveikt del pivot (video 1:13:00 kazkur apie tai kalba)
+            cueRB.MovePosition(cuePos + lockForward * (lockOffset - currOffset));
         }
         else // free mode
         {

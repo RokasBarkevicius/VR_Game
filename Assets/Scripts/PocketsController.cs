@@ -19,11 +19,12 @@ public class PocketsController : MonoBehaviour
         {
             cueBall.transform.position = originalCueBallPosition;
         }
-        else
-        {
+        else{
             var objectName = collision.gameObject.name;
-            print(objectName);
+            var objectType = collision.gameObject.tag;
             GameObject.Destroy(collision.gameObject);
+            var ballNumber = int.Parse(objectName.Replace("Ball",""));
+            PoolGameController.GameInstance.BallPocketed(ballNumber, objectType);
         }
     }
 }
