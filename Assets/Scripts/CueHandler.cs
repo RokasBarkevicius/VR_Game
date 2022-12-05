@@ -58,13 +58,13 @@ public class CueHandler : MonoBehaviour
         Vector3 backPos = backController.transform.position;
 
 
-        if (backRight == 1  && backLeft != 1)//first press of trigger
+        if (backRight > 0.7  && backLeft < 0.7)//first press of trigger
         {
             //print("first press");
             lockForward = transform.forward; //gali reik keist priklausomai nuo pivot
             lockOffset = (frontPos - backPos).magnitude;
         }
-        else if(backRight == 1 && backLeft == 1)// trigger held down
+        else if(backRight > 0.7 && backLeft > 0.7)// trigger held down
         {
             //print("press hold");
             float currOffset = (frontPos - backPos).magnitude;

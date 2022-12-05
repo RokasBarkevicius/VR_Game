@@ -46,11 +46,13 @@ public class TurnController : MonoBehaviour
         var cueBallBody = pgController.cueBall.GetComponent<Rigidbody>();
         if (!(cueBallBody.IsSleeping() || cueBallBody.velocity == Vector3.zero))
             return;
-        
-        var ball8Body = ball8.GetComponent<Rigidbody>();
-        if (!(ball8Body.IsSleeping() || ball8Body.velocity == Vector3.zero))
-            return;
         getBalls();
+        if(ball8 != null){
+            var ball8Body = ball8.GetComponent<Rigidbody>();
+            if (!(ball8Body.IsSleeping() || ball8Body.velocity == Vector3.zero))
+                return;
+        }
+        
         foreach (var sb in solidBalls) {
             var rigidbody = sb.GetComponent<Rigidbody>();
             if (!(rigidbody.IsSleeping() || rigidbody.velocity == Vector3.zero))

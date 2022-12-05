@@ -7,18 +7,11 @@ public class PoolGameController : MonoBehaviour {
 
 	public GameObject cue;
 	public GameObject cueBall;
-	//public GameObject redBalls;
 	public GameObject mainCamera;
 	public GameObject winnerMessage;
-    //public GameObject turnMessage;
     public TextMeshProUGUI text;
     public TextMeshProUGUI text2;
     public bool foul = false;
-
-	//public const float MIN_DISTANCE = 27.5f;
-	//public const float MAX_DISTANCE = 32f;
-	
-	//public IGameObjectState currentState;
 
 	public Player CurrentPlayer;
 	public Player OtherPlayer;
@@ -37,26 +30,17 @@ public class PoolGameController : MonoBehaviour {
 		GameInstance = this;
 		winnerMessage.GetComponent<Canvas>().enabled = false;
         text2.text = string.Format("Current player: {0}", CurrentPlayer.Name);
-		//currentState = new GameStates.WaitingForStrikeState(this);
 	}
-	
-	/*void Update() {
-		currentState.Update();
-	}
-
-	void FixedUpdate() {
-		currentState.FixedUpdate();
-	}
-
-	void LateUpdate() {
-		currentState.LateUpdate();
-	}*/
 
 	public void BallPocketed(int ballNumber, string ballType) {
         if(CurrentPlayer.Points < 7 && ballNumber == 8){
             CurrentPlayer.pocketed8Ball();
             EndMatch();
         } 
+		else if(CurrentPlayer.Points == 7 && ballNumber == 8){
+            CurrentPlayer.Collect(ballNumber);
+            EndMatch();
+        }
         else if(CurrentPlayer.Points == 0 && CurrentPlayer.type == ""){
             currentPlayerContinuesToPlay = true;
 		    CurrentPlayer.Collect(ballNumber);
@@ -76,10 +60,6 @@ public class PoolGameController : MonoBehaviour {
 
             OtherPlayer.Collect(ballNumber);
             NextPlayer();
-        }
-        else if(CurrentPlayer.Points == 7 && ballNumber == 8){
-            CurrentPlayer.Collect(ballNumber);
-            EndMatch();
         }
         else{
             Fouled("ball pocketed");
