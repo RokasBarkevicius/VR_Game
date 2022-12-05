@@ -97,8 +97,6 @@ public class CueHandler : MonoBehaviour
             Vector3 forceDirection = (collision.contacts[0].point - cueTip.position).normalized;
             rb.AddForce(forceDirection*cueRB.velocity.magnitude);
             hitCueBall = true;
-            Debug.Log("cue hit ball");
-            Debug.Log(hitCueBall);
         }
         
     }

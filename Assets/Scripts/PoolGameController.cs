@@ -23,7 +23,7 @@ public class PoolGameController : MonoBehaviour {
 	public Player CurrentPlayer;
 	public Player OtherPlayer;
 
-	private bool currentPlayerContinuesToPlay = false;
+	public bool currentPlayerContinuesToPlay = false;
 
 	static public PoolGameController GameInstance {
 		get;
@@ -58,7 +58,7 @@ public class PoolGameController : MonoBehaviour {
             EndMatch();
         } 
         else if(CurrentPlayer.Points == 0 && CurrentPlayer.type == ""){
-            //currentPlayerContinuesToPlay = true;
+            currentPlayerContinuesToPlay = true;
 		    CurrentPlayer.Collect(ballNumber);
             CurrentPlayer.setType(ballType);
             if(ballType == "Solids"){

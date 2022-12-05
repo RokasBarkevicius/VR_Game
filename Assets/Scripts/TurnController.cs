@@ -24,7 +24,9 @@ public class TurnController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerFouled();
+        if(pgController.foul && !ch.hitCueBall){
+            PlayerFouled();
+        }
         if(ch.hitCueBall){
             StrikedCueBall();
         }
@@ -36,10 +38,8 @@ public class TurnController : MonoBehaviour
     }
 
     public void PlayerFouled(){
-        if(pgController.foul){
-            pgController.NextPlayer();
-            pgController.foul = false;
-        }
+        pgController.NextPlayer();
+        pgController.foul = false;
     }
 
     public void StrikedCueBall(){
@@ -60,6 +60,10 @@ public class TurnController : MonoBehaviour
             var rigidbody2 = sb.GetComponent<Rigidbody>();
             if (!(rigidbody2.IsSleeping() || rigidbody2.velocity == Vector3.zero))
                 return;
+        }
+        if(pgController.foul){
+            pgController.currentPlayerContinuesToPlay = false;
+            pgController.foul = false;
         }
         ch.hitCueBall = false;
         pgController.NextPlayer();
