@@ -9,11 +9,9 @@ public class CueHandler : MonoBehaviour
     public ActionBasedController frontController;
     public ActionBasedController backController;
     
-
-    //kazkas apie button press (nezinau ar pades)
-    //https://www.youtube.com/watch?v=NdHGuj-u-kc
     public InputActionProperty right;
     public InputActionProperty left;
+    public InputActionProperty rightA;
 
     private Rigidbody cueRB;
 
@@ -23,34 +21,32 @@ public class CueHandler : MonoBehaviour
     public Transform cueTip;
 
     public bool hitCueBall = false;
-    
 
-    //Vector3 frontPos;
-    //Vector3 backPos;
-
-    //GameObject original;
+    private Vector3 originalCuePosition;
+    public bool grabbed =  false;
 
     // Start is called before the first frame update
     void Start()
     {
         cueRB = gameObject.GetComponent<Rigidbody>();
+        StartCue(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateCuePosition();
-        /*frontPos = frontController.transform.position;
-        backPos = backController.transform.position;
-        cuePos = 0.75f * backPos + 0.25f * frontPos;
-        cueRB.MovePosition(cuePos);
-        cueRB.MoveRotation(Quaternion.LookRotation(frontPos - backPos));
-        */
+        if(grabbed){
+            UpdateCuePosition();
+        }
 
+        if(gameObject.transform.position != originalCuePosition && !grabbed){
+            ReturnCue(gameObject);
+        }
     }
 
     void UpdateCuePosition()
     {
+        var rightAValue = rightA.action.ReadValue<float>();
         var backRight = right.action.ReadValue<float>();
         var backLeft = left.action.ReadValue<float>();
         
@@ -60,19 +56,20 @@ public class CueHandler : MonoBehaviour
 
         if (backRight > 0.7  && backLeft < 0.7)//first press of trigger
         {
-            //print("first press");
-            lockForward = transform.forward; //gali reik keist priklausomai nuo pivot
+            lockForward = transform.forward;
             lockOffset = (frontPos - backPos).magnitude;
         }
         else if(backRight > 0.7 && backLeft > 0.7)// trigger held down
         {
-            //print("press hold");
             float currOffset = (frontPos - backPos).magnitude;
             cueRB.MovePosition(cuePos + lockForward * (lockOffset - currOffset));
         }
+        else if(rightAValue >  0.7)
+        {
+            SetGrabbedFalse();
+        }
         else // free mode
         {
-            //print("free");
             cuePos = 0.75f * backPos + 0.25f * frontPos;
             cueRB.MovePosition(cuePos);
             cueRB.MoveRotation(Quaternion.LookRotation(frontPos - backPos));
@@ -99,5 +96,25 @@ public class CueHandler : MonoBehaviour
             hitCueBall = true;
         }
         
+    }
+
+    public void ReturnCue(GameObject cue1){
+        cue1.transform.position = new Vector3(-0.383f, 0.781f, 1.133f);
+        cue1.transform.rotation = Quaternion.Euler(0.0f,90.0f,0.0f);
+        //cue1.transform.eulerAngles = Vector3(0.0,90.0,0.0);
+    }
+
+    public void StartCue(GameObject cue1){
+        originalCuePosition = cue1.transform.position;
+    }
+
+    public void SetGrabbedTrue()
+    {
+        grabbed = true;
+    }
+
+    public void SetGrabbedFalse()
+    {
+        grabbed = false;
     }
 }

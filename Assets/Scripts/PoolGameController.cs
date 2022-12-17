@@ -74,12 +74,35 @@ public class PoolGameController : MonoBehaviour {
 			Debug.Log(CurrentPlayer.Name + " continues to play");
 			return;
 		}
+
+		if(OtherPlayer.Name == "P2"){
+			ChangeCue(1);
+		} else{
+			ChangeCue(0);
+		}
         text2.text = string.Format("Current player: {0}", OtherPlayer.Name);
 
 		Debug.Log(OtherPlayer.Name + " will play");
 		var aux = CurrentPlayer;
 		CurrentPlayer = OtherPlayer;
 		OtherPlayer = aux;
+	}
+
+	public void ChangeCue(int p)
+	{
+		
+		Material[] mats = cue.transform.GetComponent<Renderer>().materials;
+		for (int i = 0; i < mats.Length; i++)
+		{
+			if(mats[i].name.Contains("cueEnd") || mats[i].name.Contains("cueFront")){
+				if(p == 0){
+					mats[i].SetColor("_Color", Color.blue);
+				}else {
+					mats[i].SetColor("_Color", Color.red);
+				}
+				continue;
+			}
+		}
 	}
 
 	public void EndMatch() {
